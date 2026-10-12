@@ -69,8 +69,6 @@ Tip: do one warm-up run before the talk so DNS is cached, and note that on corpo
 campus networks a TLS-inspecting proxy may sit in the middle. You'll then see the proxy's
 certificate chain instead of Google's, which is itself a nice discussion point.
 
-
-```
 ## What you'll observe
 
 - **Forcing works only as a veto.** One offered option either gets used or causes a

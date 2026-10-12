@@ -69,32 +69,7 @@ Tip: do one warm-up run before the talk so DNS is cached, and note that on corpo
 campus networks a TLS-inspecting proxy may sit in the middle. You'll then see the proxy's
 certificate chain instead of Google's, which is itself a nice discussion point.
 
-## Try it
 
-```bash
-# Server with three certs (it picks the one matching the client's sigalgs)
-./build/tls_server --port 4433 \
-  --cert certs/ecdsa.crt --key certs/ecdsa.key \
-  --cert certs/ed25519.crt --key certs/ed25519.key \
-  --cert certs/rsa.crt --key certs/rsa.key
-
-# Force X25519 + Ed25519
-./build/tls_client --host localhost --port 4433 --cafile certs/ca.crt \
-  --group X25519 --sigalg ed25519
-
-# Force something the server won't do -> handshake_failure alert
-./build/tls_server --port 4434 --cert certs/ecdsa.crt --key certs/ecdsa.key --groups P-256
-./build/tls_client --host localhost --port 4434 --cafile certs/ca.crt --group X448
-
-# Trigger a HelloRetryRequest: key share goes for X448, server only takes P-256
-./build/tls_client --host localhost --port 4434 --cafile certs/ca.crt --groups X448:P-256
-
-# TLS 1.2: one suite name bundles KE + auth + cipher + MAC
-./build/tls_client --host localhost --port 4433 --cafile certs/ca.crt \
-  --tls12 --cipher-list ECDHE-RSA-AES256-GCM-SHA384
-
-# Map any real server
-./build/tls_probe --host cloudflare.com --port 443
 ```
 
 **Browser demo:** run the server and open `https://localhost:4433/`
@@ -126,8 +101,6 @@ Nothing in the code is classical-only. Group and sigalg names pass straight to O
 - **OpenSSL 3.0-3.4**: build [oqs-provider](https://github.com/open-quantum-safe/oqs-provider)
   and add `--provider oqsprovider` to any program.
 
-Good next step: time handshakes and record ClientHello/ServerHello sizes per
-(group, sigalg) pair, classical vs hybrid vs pure PQ.
 
 ## Layout
 

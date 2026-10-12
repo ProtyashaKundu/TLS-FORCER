@@ -71,12 +71,6 @@ certificate chain instead of Google's, which is itself a nice discussion point.
 
 
 ```
-
-**Browser demo:** run the server and open `https://localhost:4433/`
-(accept the warning, or import `certs/ca.crt`). The page lists your browser's
-ClientHello (GREASE values, hybrid PQ key shares if it sends them) and what the
-server chose.
-
 ## What you'll observe
 
 - **Forcing works only as a veto.** One offered option either gets used or causes a
